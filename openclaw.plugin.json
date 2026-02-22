@@ -1,0 +1,16 @@
+{
+  "id": "openclaw-docker",
+  "name": "Docker",
+  "description": "Manage Docker containers and Compose stacks via natural language",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "socketPath": { "type": "string", "default": "/var/run/docker.sock" },
+      "readOnly": { "type": "boolean", "default": false },
+      "allowedOperations": { "type": "array", "items": { "type": "string" } },
+      "composeProjects": { "type": "object", "additionalProperties": { "type": "string" } }
+    }
+  }
+}
