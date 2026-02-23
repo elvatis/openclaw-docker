@@ -1,3 +1,8 @@
+---
+name: openclaw-docker
+description: "Manage Docker containers and Compose projects via OpenClaw tools"
+---
+
 # @elvatis_com/openclaw-docker
 
 OpenClaw plugin for Docker container operations and Docker Compose project control.
