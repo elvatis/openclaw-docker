@@ -1,5 +1,5 @@
 {
-  "name": "@elvatis/openclaw-docker",
+  "name": "@elvatis_com/openclaw-docker",
   "version": "0.1.0",
   "description": "OpenClaw plugin — Docker container management: list, logs, start/stop, Compose stacks",
   "main": "dist/index.js",
