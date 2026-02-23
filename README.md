@@ -1,25 +1,25 @@
-# @elvatis_com/openclaw-docker
+# @elvatis/openclaw-docker
 
-OpenClaw plugin for Docker container management. List, inspect, start/stop containers, read logs, and manage Compose stacks through natural language.
+OpenClaw plugin for Docker container operations and Docker Compose project control.
 
 ## Features
 
-- **Container Management** - List, start, stop, restart containers
-- **Log Access** - Tail and search container logs
-- **Container Inspection** - Full details: ports, volumes, env, health, resource usage
-- **Compose Stacks** - Up, down, and status for Docker Compose projects
-- **Image Management** - List images, pull new versions, prune unused
-- **Read-Only Mode** - Optional safety mode for monitoring without control
+- Docker daemon connection via unix socket or TCP
+- Optional TLS for remote daemon access
+- Read and write container tools
+- Docker Compose integration via `docker compose` CLI
+- Safety controls with `readOnly` and `allowedOperations`
+- Configurable command timeout
 
 ## Installation
 
 ```bash
-npm install @elvatis_com/openclaw-docker
+npm install @elvatis/openclaw-docker
 ```
 
 ## Configuration
 
-Add to your `openclaw.json`:
+### Local socket (default)
 
 ```json
 {
@@ -27,46 +27,69 @@ Add to your `openclaw.json`:
     "openclaw-docker": {
       "socketPath": "/var/run/docker.sock",
       "readOnly": false,
-      "allowedOperations": ["list", "logs", "inspect", "start", "stop", "restart"],
-      "composeProjects": {
-        "myapp": "/opt/myapp/docker-compose.yml"
-      }
+      "allowedOperations": ["ps", "logs", "inspect", "start", "stop", "restart", "compose_up", "compose_down"],
+      "composeProjects": [
+        { "name": "aegis", "path": "/opt/aegis" }
+      ],
+      "timeoutMs": 15000
     }
   }
 }
 ```
 
-## Agent Tools
+### Remote Docker daemon with TLS
 
-| Tool | Description |
-|---|---|
-| `docker_list` | List running containers (optionally all, including stopped) |
-| `docker_inspect` | Get full details of a container: ports, volumes, env, health |
-| `docker_logs` | Get recent logs from a container (with tail/since options) |
-| `docker_start` | Start a stopped container |
-| `docker_stop` | Stop a running container |
-| `docker_restart` | Restart a container |
-| `docker_stats` | Get CPU/memory/network stats for running containers |
-| `docker_images` | List Docker images |
-| `docker_compose_status` | Show status of a Compose project |
-| `docker_compose_up` | Start a Compose project |
-| `docker_compose_down` | Stop a Compose project |
+```json
+{
+  "plugins": {
+    "openclaw-docker": {
+      "host": "10.0.0.20",
+      "port": 2376,
+      "tls": {
+        "caPath": "/etc/openclaw/docker/ca.pem",
+        "certPath": "/etc/openclaw/docker/cert.pem",
+        "keyPath": "/etc/openclaw/docker/key.pem",
+        "rejectUnauthorized": true
+      },
+      "readOnly": true,
+      "composeProjects": []
+    }
+  }
+}
+```
 
-## Safety
+## Available Tools
 
-- **`readOnly: true`** blocks all state-changing operations (start, stop, restart, compose up/down)
-- **`allowedOperations`** whitelist restricts which operations the agent can perform
-- No `docker exec` or `docker rm` by design (too dangerous for agent access)
-- Socket path is configurable for rootless Docker or remote Docker hosts
+- `docker_ps`
+- `docker_logs`
+- `docker_inspect`
+- `docker_start`
+- `docker_stop`
+- `docker_restart`
+- `docker_compose_up`
+- `docker_compose_down`
+
+## Usage Examples
+
+- "List all running containers"
+- "Show the last 200 lines from api-gateway logs"
+- "Inspect redis container"
+- "Restart identity-service"
+- "Bring aegis compose project up"
+
+## Safety and Permissions
+
+- `readOnly: true` allows only `ps`, `logs`, and `inspect`
+- `allowedOperations` limits which tools can be executed
+- Compose operations are limited to projects in `composeProjects`
+- Commands use timeout protection via `timeoutMs`
 
 ## Development
 
 ```bash
-git clone https://github.com/homeofe/openclaw-docker
-cd openclaw-docker
 npm install
 npm run build
-npm run test
+npm test
 ```
 
 ## License

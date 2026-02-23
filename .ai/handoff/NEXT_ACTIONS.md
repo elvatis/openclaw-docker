@@ -1,27 +1,15 @@
 # openclaw-docker — Next Actions
 
-## P1 — Research (Sonar)
-- [ ] Research: dockerode npm package (API, types, usage patterns)
-- [ ] Research: Docker Compose v2 programmatic API (or CLI subprocess)
-- [ ] Research: existing Docker + AI assistant integrations
+## Completed in this iteration
 
-## P2 — Architecture (Opus)
-- [ ] Define config schema (socketPath, tls, readOnly, allowedOperations, composeProjects)
-- [ ] Define agent tool signatures
-- [ ] Decide: Docker Compose via CLI subprocess or compose-spec library
+- [x] P1 Research: dockerode API and Docker Compose v2 CLI decision
+- [x] P2 Architecture: config schema, tool list, safety model
+- [x] P3 Implementation: tools, guards, compose subprocess, tests
+- [x] P4 Docs: README and AAHP handoff updates
 
-## P3 — Implementation (Sonnet)
-- [ ] Create package.json + tsconfig.json + openclaw.plugin.json
-- [ ] Implement Docker client wrapper (dockerode)
-- [ ] Implement docker_list tool (with health status)
-- [ ] Implement docker_logs tool (last N lines, follow option)
-- [ ] Implement docker_inspect tool
-- [ ] Implement docker_start / docker_stop / docker_restart (with allowedOperations guard)
-- [ ] Implement docker_compose_up / docker_compose_down
-- [ ] Write tests (mock Docker socket)
+## Next priorities
 
-## P4 — Docs + Publish
-- [ ] Update README.md with final setup guide
-- [ ] npm publish @elvatis/openclaw-docker
-- [ ] Blog article: "Managing Docker from your AI assistant with OpenClaw"
-- [ ] Submit to OpenClaw community plugins page (PR)
+- [ ] Add optional `follow` support for `docker_logs`
+- [ ] Add integration test profile against a real Docker daemon in CI
+- [ ] Add optional tool for compose status (`docker compose ps`) if needed
+- [ ] Prepare first tagged release after review
