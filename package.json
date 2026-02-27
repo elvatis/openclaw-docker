@@ -9,8 +9,14 @@
     "dev": "tsc --watch",
     "test": "jest",
     "test:integration": "jest --config jest.integration.config.cjs",
-    "test:all": "jest && jest --config jest.integration.config.cjs"
+    "test:all": "jest && jest --config jest.integration.config.cjs",
+    "prepublishOnly": "npm run build"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "openclaw",
     "openclaw-plugin",
