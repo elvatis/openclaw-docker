@@ -1,0 +1,60 @@
+{
+  "quick_context": "openclaw-docker P1-P4 complete. Tools, guards, compose subprocess, tests done. 4 follow-up tasks ready.",
+  "aahp_version": "3.0",
+  "next_task_id": 5,
+  "token_budget": {
+    "manifest_only": 100,
+    "full_read": 1200,
+    "manifest_plus_core": 400
+  },
+  "tasks": {
+    "T-001": {
+      "created": "2026-02-28T00:00:00Z",
+      "priority": "medium",
+      "status": "ready",
+      "title": "Add optional follow support for docker_logs (stream logs in real-time)",
+      "depends_on": []
+    },
+    "T-004": {
+      "created": "2026-02-28T00:00:00Z",
+      "priority": "medium",
+      "status": "ready",
+      "title": "Prepare first tagged release (review, changelog, tag)",
+      "depends_on": [
+        "T-001",
+        "T-002"
+      ]
+    },
+    "T-002": {
+      "created": "2026-02-28T00:00:00Z",
+      "priority": "medium",
+      "status": "ready",
+      "title": "Add integration test profile against real Docker daemon in CI",
+      "depends_on": []
+    },
+    "T-003": {
+      "created": "2026-02-28T00:00:00Z",
+      "priority": "low",
+      "status": "ready",
+      "title": "Add optional compose status tool (docker compose ps)",
+      "depends_on": []
+    }
+  },
+  "project": "openclaw-docker",
+  "last_session": {
+    "agent": "human",
+    "timestamp": "2026-02-28T00:00:00Z",
+    "phase": "maintenance",
+    "session_id": "p4-docs-done",
+    "duration_minutes": 0,
+    "commit": ""
+  },
+  "files": {
+    "NEXT_ACTIONS.md": {
+      "lines": 15,
+      "updated": "2026-02-28T00:00:00Z",
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "summary": "4 ready tasks: follow support, CI integration tests, compose status tool, release tag."
+    }
+  }
+}
