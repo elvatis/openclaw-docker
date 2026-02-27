@@ -21,7 +21,9 @@ export default function init(api: OpenClawApi): void {
 
   register("docker_ps", async (input) => tools.docker_ps(input as { all?: boolean }));
   register("docker_logs", async (input) =>
-    tools.docker_logs(input as { containerId: string; tail?: number })
+    tools.docker_logs(
+      input as { containerId: string; tail?: number; follow?: boolean; followDurationMs?: number }
+    )
   );
   register("docker_inspect", async (input) =>
     tools.docker_inspect(input as { containerId: string })

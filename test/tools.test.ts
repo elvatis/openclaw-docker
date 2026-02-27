@@ -1,3 +1,4 @@
+import { PassThrough } from "node:stream";
 import { createTools } from "../src/tools";
 import { assertOperationAllowed } from "../src/guards";
 import { PluginConfig } from "../src/types";
@@ -52,6 +53,56 @@ describe("docker tools", () => {
     >;
 
     expect(result.logs).toContain("hello");
+  });
+
+  test("docker_logs follow mode collects streamed data", async () => {
+    const mockStream = new PassThrough();
+    const docker = {
+      getContainer: jest.fn().mockReturnValue({
+        logs: jest.fn().mockResolvedValue(mockStream)
+      })
+    } as unknown as Parameters<typeof createTools>[0]["docker"];
+
+    const tools = createTools({ docker, config: baseConfig() });
+
+    setTimeout(() => {
+      mockStream.write(Buffer.from("line1\n"));
+      mockStream.write(Buffer.from("line2\n"));
+      mockStream.end();
+    }, 10);
+
+    const result = (await tools.docker_logs({
+      containerId: "abc",
+      follow: true,
+      followDurationMs: 5000
+    })) as Record<string, unknown>;
+
+    expect(result.follow).toBe(true);
+    expect(result.logs).toContain("line1");
+    expect(result.logs).toContain("line2");
+  });
+
+  test("docker_logs follow mode respects duration limit", async () => {
+    const mockStream = new PassThrough();
+    const docker = {
+      getContainer: jest.fn().mockReturnValue({
+        logs: jest.fn().mockResolvedValue(mockStream)
+      })
+    } as unknown as Parameters<typeof createTools>[0]["docker"];
+
+    const tools = createTools({ docker, config: baseConfig() });
+
+    mockStream.write(Buffer.from("initial\n"));
+
+    const result = (await tools.docker_logs({
+      containerId: "abc",
+      follow: true,
+      followDurationMs: 100
+    })) as Record<string, unknown>;
+
+    expect(result.follow).toBe(true);
+    expect(result.durationMs).toBe(100);
+    expect(result.logs).toContain("initial");
   });
 
   test("docker_inspect returns payload", async () => {

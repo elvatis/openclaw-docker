@@ -86,9 +86,21 @@ npm install @elvatis_com/openclaw-docker
 
 - "List all running containers"
 - "Show the last 200 lines from api-gateway logs"
+- "Follow api-gateway logs for 30 seconds"
 - "Inspect redis container"
 - "Restart identity-service"
 - "Bring aegis compose project up"
+
+### Follow mode (docker_logs)
+
+The `docker_logs` tool supports real-time log streaming via `follow: true`. Logs are collected for a bounded duration and returned as a single result.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `containerId` | string | (required) | Container name or ID |
+| `tail` | number | 100 | Number of existing lines to include |
+| `follow` | boolean | false | Enable real-time log streaming |
+| `followDurationMs` | number | 10000 | How long to follow (ms), capped by `timeoutMs` |
 
 ## Safety and Permissions
 

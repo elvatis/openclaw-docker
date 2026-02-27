@@ -1,5 +1,5 @@
 {
-  "quick_context": "openclaw-docker P1-P4 complete. Tools, guards, compose subprocess, tests done. 4 follow-up tasks ready.",
+  "quick_context": "openclaw-docker P1-P4 complete + T-001 done. docker_logs now supports follow mode with bounded duration. 3 follow-up tasks remain.",
   "aahp_version": "3.0",
   "next_task_id": 5,
   "token_budget": {
@@ -11,9 +11,10 @@
     "T-001": {
       "created": "2026-02-28T00:00:00Z",
       "priority": "medium",
-      "status": "ready",
+      "status": "done",
       "title": "Add optional follow support for docker_logs (stream logs in real-time)",
-      "depends_on": []
+      "depends_on": [],
+      "completed": "2026-02-27T00:00:00Z"
     },
     "T-004": {
       "created": "2026-02-28T00:00:00Z",
@@ -42,11 +43,11 @@
   },
   "project": "openclaw-docker",
   "last_session": {
-    "agent": "human",
-    "timestamp": "2026-02-28T00:00:00Z",
+    "agent": "claude-opus-4-6",
+    "timestamp": "2026-02-27T00:00:00Z",
     "phase": "maintenance",
-    "session_id": "p4-docs-done",
-    "duration_minutes": 0,
+    "session_id": "t001-follow-logs",
+    "duration_minutes": 10,
     "commit": ""
   },
   "files": {
