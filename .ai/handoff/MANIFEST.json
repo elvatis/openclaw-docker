@@ -1,5 +1,5 @@
 {
-  "quick_context": "openclaw-docker v0.2.0 released. T-001 (follow mode) and T-004 (tagged release) done. 2 follow-up tasks remain (T-002 CI integration tests, T-003 compose status tool).",
+  "quick_context": "openclaw-docker v0.2.0 released. T-001, T-002, T-004 done. CI workflow with unit + integration tests added. 1 follow-up task remains (T-003 compose status tool).",
   "aahp_version": "3.0",
   "next_task_id": 5,
   "token_budget": {
@@ -25,14 +25,15 @@
         "T-001",
         "T-002"
       ],
-      "completed": "2026-02-27T00:00:00Z"
+      "completed": "2026-02-27T13:23:13.680Z"
     },
     "T-002": {
       "created": "2026-02-28T00:00:00Z",
       "priority": "medium",
-      "status": "ready",
+      "status": "done",
       "title": "Add integration test profile against real Docker daemon in CI",
-      "depends_on": []
+      "depends_on": [],
+      "completed": "2026-02-27T14:15:46.000Z"
     },
     "T-003": {
       "created": "2026-02-28T00:00:00Z",
@@ -45,11 +46,11 @@
   "project": "openclaw-docker",
   "last_session": {
     "agent": "claude-code",
-    "timestamp": "2026-02-27T00:00:00Z",
+    "timestamp": "2026-02-27T14:15:46.000Z",
     "phase": "maintenance",
-    "session_id": "t004-release-v0.2.0",
-    "duration_minutes": 5,
-    "commit": "26cf3b5"
+    "session_id": "t002-ci-integration-tests",
+    "duration_minutes": 10,
+    "commit": ""
   },
   "files": {
     "NEXT_ACTIONS.md": {

@@ -114,8 +114,14 @@ The `docker_logs` tool supports real-time log streaming via `follow: true`. Logs
 ```bash
 npm install
 npm run build
-npm test
+npm test                # unit tests (mocked Docker client)
+npm run test:integration # integration tests (requires running Docker daemon)
+npm run test:all         # both unit and integration tests
 ```
+
+### CI
+
+The GitHub Actions workflow (`.github/workflows/ci.yml`) runs unit tests on every push and pull request to `main`, followed by integration tests against the real Docker daemon available on the CI runner.
 
 ## License
 

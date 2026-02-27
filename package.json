@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "jest"
+    "test": "jest",
+    "test:integration": "jest --config jest.integration.config.cjs",
+    "test:all": "jest && jest --config jest.integration.config.cjs"
   },
   "keywords": [
     "openclaw",
