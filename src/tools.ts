@@ -24,6 +24,7 @@ interface ToolMap {
   docker_restart: (input: { containerId: string; timeout?: number }) => Promise<unknown>;
   docker_compose_up: (input: { project: string; detached?: boolean }) => Promise<unknown>;
   docker_compose_down: (input: { project: string; volumes?: boolean }) => Promise<unknown>;
+  docker_compose_ps: (input: { project: string; services?: string[] }) => Promise<unknown>;
 }
 
 function guard(op: DockerOperation, config: PluginConfig): void {
@@ -198,6 +199,21 @@ export function createTools({ docker, config, composeRunner = runComposeCommand 
 
       const result = await composeRunner(projectPath, args, config.timeoutMs);
       return { ok: true, action: "compose_down", project: input.project, ...result };
+    },
+
+    async docker_compose_ps(input) {
+      guard("compose_ps", config);
+      const projectPath = resolveProjectPath(config, input.project);
+      const args = ["ps", "--format", "json", ...(input.services ?? [])];
+
+      const result = await composeRunner(projectPath, args, config.timeoutMs);
+      let services: unknown[] = [];
+      const stdout = result.stdout.trim();
+      if (stdout) {
+        // docker compose ps --format json outputs one JSON object per line
+        services = stdout.split("\n").map((line) => JSON.parse(line));
+      }
+      return { ok: true, action: "compose_ps", project: input.project, services };
     }
   };
 }

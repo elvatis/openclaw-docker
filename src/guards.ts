@@ -1,6 +1,6 @@
 import { DockerOperation, PluginConfig } from "./types";
 
-const READ_ONLY_ALLOWED: DockerOperation[] = ["ps", "logs", "inspect"];
+const READ_ONLY_ALLOWED: DockerOperation[] = ["ps", "logs", "inspect", "compose_ps"];
 
 export function assertOperationAllowed(operation: DockerOperation, config: PluginConfig): void {
   if (config.readOnly && !READ_ONLY_ALLOWED.includes(operation)) {

@@ -6,7 +6,8 @@ export type DockerOperation =
   | "stop"
   | "restart"
   | "compose_up"
-  | "compose_down";
+  | "compose_down"
+  | "compose_ps";
 
 export interface DockerTlsConfig {
   caPath?: string;

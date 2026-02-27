@@ -45,7 +45,7 @@ npm install @elvatis_com/openclaw-docker
     "openclaw-docker": {
       "socketPath": "/var/run/docker.sock",
       "readOnly": false,
-      "allowedOperations": ["ps", "logs", "inspect", "start", "stop", "restart", "compose_up", "compose_down"],
+      "allowedOperations": ["ps", "logs", "inspect", "start", "stop", "restart", "compose_up", "compose_down", "compose_ps"],
       "composeProjects": [
         { "name": "aegis", "path": "/opt/aegis" }
       ],
@@ -86,6 +86,7 @@ npm install @elvatis_com/openclaw-docker
 - `docker_restart`
 - `docker_compose_up`
 - `docker_compose_down`
+- `docker_compose_ps`
 
 ## Usage Examples
 
@@ -94,10 +95,11 @@ npm install @elvatis_com/openclaw-docker
 - "Inspect redis container"
 - "Restart identity-service"
 - "Bring aegis compose project up"
+- "Show status of aegis compose services"
 
 ## Safety and Permissions
 
-- `readOnly: true` allows only `ps`, `logs`, and `inspect`
+- `readOnly: true` allows only `ps`, `logs`, `inspect`, and `compose_ps`
 - `allowedOperations` limits which tools can be executed
 - Compose operations are limited to projects in `composeProjects`
 - Commands use timeout protection via `timeoutMs`

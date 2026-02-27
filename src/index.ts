@@ -41,6 +41,9 @@ export default function init(api: OpenClawApi): void {
   register("docker_compose_down", async (input) =>
     tools.docker_compose_down(input as { project: string; volumes?: boolean })
   );
+  register("docker_compose_ps", async (input) =>
+    tools.docker_compose_ps(input as { project: string; services?: string[] })
+  );
 }
 
 export { createTools } from "./tools";

@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `docker_compose_ps` tool - inspect running services in a Compose project via `docker compose ps --format json`, with optional service name filter
+- `compose_ps` is allowed in `readOnly` mode since it is a read-only operation
+
 ## [0.2.0] - 2026-02-27
 
 ### Added
