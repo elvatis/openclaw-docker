@@ -1,4 +1,4 @@
-# openclaw-docker - Status
+﻿# openclaw-docker - Status
 
 > Last updated: 2026-02-23
 > Phase: P1-P4 completed for MVP
@@ -6,7 +6,7 @@
 ## Project Overview
 
 **Package:** `@elvatis/openclaw-docker`  
-**Repo:** https://github.com/homeofe/openclaw-docker  
+**Repo:** https://github.com/elvatis/openclaw-docker  
 **Purpose:** Docker container management via OpenClaw tools with safety controls.
 
 ## Build Health

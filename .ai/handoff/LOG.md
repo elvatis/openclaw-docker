@@ -1,8 +1,8 @@
-# openclaw-docker - Log
+﻿# openclaw-docker - Log
 
 ## 2026-02-22 - Project Initialized
 
-- Repo cloned from github.com/homeofe/openclaw-docker
+- Repo cloned from github.com/elvatis/openclaw-docker
 - AAHP handoff structure created
 - README.md written with architecture + agent tools + config schema
 - Context: User runs a multi-service Docker stack locally and wants to manage containers via natural language through OpenClaw.

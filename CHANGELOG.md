@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -35,5 +35,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Plugin manifest with full `configSchema` for OpenClaw integration
 - MIT license
 
-[0.2.0]: https://github.com/homeofe/openclaw-docker/compare/v0.1.2...v0.2.0
-[0.1.2]: https://github.com/homeofe/openclaw-docker/releases/tag/v0.1.2
+[0.2.0]: https://github.com/elvatis/openclaw-docker/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/elvatis/openclaw-docker/releases/tag/v0.1.2
