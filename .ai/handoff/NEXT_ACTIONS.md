@@ -79,3 +79,8 @@
   T-004: Prepare first tagged release (review, changelog, tag)
   T-002: Add integration test profile against real Docker daemon in CI
   T-003: Add optional compose status tool (docker compose ps)
+
+## ⚠️ Version Sync Rule
+**ALWAYS keep `package.json` and `openclaw.plugin.json` versions in sync.**
+When bumping a version, update BOTH files. Mismatched versions cause plugin loading failures and npm/ClawHub publish inconsistencies.
+
