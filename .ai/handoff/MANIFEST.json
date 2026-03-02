@@ -1,7 +1,7 @@
 {
   "quick_context": "openclaw-docker v0.2.0 released. All tasks (T-001 through T-004) done. 9 tools available including docker_compose_ps. CI workflow with unit + integration tests. No open tasks.",
   "aahp_version": "3.0",
-  "next_task_id": 5,
+  "next_task_id": 9,
   "token_budget": {
     "manifest_only": 100,
     "full_read": 1200,
@@ -42,6 +42,42 @@
       "title": "Add optional compose status tool (docker compose ps)",
       "depends_on": [],
       "completed": "2026-02-27T14:26:10.271Z"
+    },
+    "T-005": {
+      "title": "Add docker_exec tool for running commands inside containers [high]",
+      "status": "ready",
+      "priority": "medium",
+      "depends_on": [],
+      "created": "2026-03-02T03:59:08.681Z",
+      "github_issue": 1,
+      "github_repo": "elvatis/openclaw-docker"
+    },
+    "T-006": {
+      "title": "Add unit tests for write operations [medium]",
+      "status": "ready",
+      "priority": "medium",
+      "depends_on": [],
+      "created": "2026-03-02T03:59:08.681Z",
+      "github_issue": 2,
+      "github_repo": "elvatis/openclaw-docker"
+    },
+    "T-007": {
+      "title": "Add docker_stats tool for container resource monitoring [medium]",
+      "status": "ready",
+      "priority": "medium",
+      "depends_on": [],
+      "created": "2026-03-02T03:59:08.681Z",
+      "github_issue": 3,
+      "github_repo": "elvatis/openclaw-docker"
+    },
+    "T-008": {
+      "title": "Add project-level CLAUDE.md with dev conventions [low]",
+      "status": "ready",
+      "priority": "medium",
+      "depends_on": [],
+      "created": "2026-03-02T03:59:08.681Z",
+      "github_issue": 4,
+      "github_repo": "elvatis/openclaw-docker"
     }
   },
   "project": "openclaw-docker",
