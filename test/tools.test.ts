@@ -2,6 +2,7 @@ import { PassThrough } from "node:stream";
 import { createTools } from "../src/tools";
 import { assertOperationAllowed } from "../src/guards";
 import { PluginConfig } from "../src/types";
+import { vi } from 'vitest'
 
 function baseConfig(): PluginConfig {
   return {
@@ -16,7 +17,7 @@ function baseConfig(): PluginConfig {
 describe("docker tools", () => {
   test("docker_ps returns normalized container list", async () => {
     const docker = {
-      listContainers: jest.fn().mockResolvedValue([
+      listContainers: vi.fn().mockResolvedValue([
         {
           Id: "abc",
           Names: ["/web"],
@@ -41,8 +42,8 @@ describe("docker tools", () => {
 
   test("docker_logs returns text logs", async () => {
     const docker = {
-      getContainer: jest.fn().mockReturnValue({
-        logs: jest.fn().mockResolvedValue(Buffer.from("hello\nworld"))
+      getContainer: vi.fn().mockReturnValue({
+        logs: vi.fn().mockResolvedValue(Buffer.from("hello\nworld"))
       })
     } as unknown as Parameters<typeof createTools>[0]["docker"];
 
@@ -58,8 +59,8 @@ describe("docker tools", () => {
   test("docker_logs follow mode collects streamed data", async () => {
     const mockStream = new PassThrough();
     const docker = {
-      getContainer: jest.fn().mockReturnValue({
-        logs: jest.fn().mockResolvedValue(mockStream)
+      getContainer: vi.fn().mockReturnValue({
+        logs: vi.fn().mockResolvedValue(mockStream)
       })
     } as unknown as Parameters<typeof createTools>[0]["docker"];
 
@@ -85,8 +86,8 @@ describe("docker tools", () => {
   test("docker_logs follow mode respects duration limit", async () => {
     const mockStream = new PassThrough();
     const docker = {
-      getContainer: jest.fn().mockReturnValue({
-        logs: jest.fn().mockResolvedValue(mockStream)
+      getContainer: vi.fn().mockReturnValue({
+        logs: vi.fn().mockResolvedValue(mockStream)
       })
     } as unknown as Parameters<typeof createTools>[0]["docker"];
 
@@ -107,8 +108,8 @@ describe("docker tools", () => {
 
   test("docker_inspect returns payload", async () => {
     const docker = {
-      getContainer: jest.fn().mockReturnValue({
-        inspect: jest.fn().mockResolvedValue({ Id: "abc", Config: { Image: "redis" } })
+      getContainer: vi.fn().mockReturnValue({
+        inspect: vi.fn().mockResolvedValue({ Id: "abc", Config: { Image: "redis" } })
       })
     } as unknown as Parameters<typeof createTools>[0]["docker"];
 
@@ -130,7 +131,7 @@ describe("docker_compose_ps", () => {
   test("returns parsed service list from compose ps JSON output", async () => {
     const jsonLine1 = JSON.stringify({ Name: "myapp-web-1", State: "running", Service: "web" });
     const jsonLine2 = JSON.stringify({ Name: "myapp-db-1", State: "running", Service: "db" });
-    const mockRunner = jest.fn().mockResolvedValue({
+    const mockRunner = vi.fn().mockResolvedValue({
       stdout: `${jsonLine1}\n${jsonLine2}\n`,
       stderr: ""
     });
@@ -154,7 +155,7 @@ describe("docker_compose_ps", () => {
   });
 
   test("returns empty services array when no containers are running", async () => {
-    const mockRunner = jest.fn().mockResolvedValue({ stdout: "", stderr: "" });
+    const mockRunner = vi.fn().mockResolvedValue({ stdout: "", stderr: "" });
 
     const docker = {} as Parameters<typeof createTools>[0]["docker"];
     const tools = createTools({ docker, config: composeConfig(), composeRunner: mockRunner });
@@ -166,7 +167,7 @@ describe("docker_compose_ps", () => {
   });
 
   test("passes service filter arguments to compose command", async () => {
-    const mockRunner = jest.fn().mockResolvedValue({ stdout: "", stderr: "" });
+    const mockRunner = vi.fn().mockResolvedValue({ stdout: "", stderr: "" });
 
     const docker = {} as Parameters<typeof createTools>[0]["docker"];
     const tools = createTools({ docker, config: composeConfig(), composeRunner: mockRunner });
