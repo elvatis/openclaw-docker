@@ -40,7 +40,7 @@ npm install @elvatis_com/openclaw-docker
     "openclaw-docker": {
       "socketPath": "/var/run/docker.sock",
       "readOnly": false,
-      "allowedOperations": ["ps", "logs", "inspect", "start", "stop", "restart", "exec", "compose_up", "compose_down", "compose_ps"],
+      "allowedOperations": ["ps", "logs", "inspect", "stats", "start", "stop", "restart", "exec", "compose_up", "compose_down", "compose_ps"],
       "composeProjects": [
         { "name": "aegis", "path": "/opt/aegis" }
       ],
@@ -73,16 +73,19 @@ npm install @elvatis_com/openclaw-docker
 
 ## Available Tools
 
-- `docker_ps`
-- `docker_logs`
-- `docker_inspect`
-- `docker_start`
-- `docker_stop`
-- `docker_restart`
-- `docker_exec`
-- `docker_compose_up`
-- `docker_compose_down`
-- `docker_compose_ps`
+| Tool | Description | Read-only safe |
+|---|---|---|
+| `docker_ps` | List containers | ✅ |
+| `docker_logs` | Fetch or stream container logs | ✅ |
+| `docker_inspect` | Inspect container details | ✅ |
+| `docker_stats` | Real-time CPU, memory, and network metrics | ✅ |
+| `docker_start` | Start a stopped container | ❌ |
+| `docker_stop` | Stop a running container | ❌ |
+| `docker_restart` | Restart a container | ❌ |
+| `docker_exec` | Execute a command inside a container | ❌ |
+| `docker_compose_up` | Bring a Compose project up | ❌ |
+| `docker_compose_down` | Bring a Compose project down | ❌ |
+| `docker_compose_ps` | List Compose service statuses | ✅ |
 
 ## Usage Examples
 
@@ -90,6 +93,7 @@ npm install @elvatis_com/openclaw-docker
 - "Show the last 200 lines from api-gateway logs"
 - "Follow api-gateway logs for 30 seconds"
 - "Inspect redis container"
+- "Show CPU and memory usage for the api-gateway container"
 - "Restart identity-service"
 - "Run `ls -la /app` inside the api-gateway container"
 - "Exec into redis and run `redis-cli INFO server`"
@@ -131,9 +135,34 @@ Returns `{ ok, action, containerId, command, exitCode, stdout, stderr }`.
 }
 ```
 
+### docker_stats
+
+Returns a single snapshot of resource usage for a running container. Safe in `readOnly` mode.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `containerId` | string | yes | Container name or ID |
+
+Returns:
+
+```json
+{
+  "containerId": "api-gateway",
+  "cpuPercent": 12.34,
+  "memoryUsageBytes": 48234496,
+  "memoryLimitBytes": 1073741824,
+  "networkRxBytes": 1536,
+  "networkTxBytes": 2304
+}
+```
+
+- `cpuPercent` is calculated from the delta between the current and previous CPU snapshot, multiplied by the number of online CPUs.
+- `memoryUsageBytes` excludes page cache (Docker Desktop convention).
+- `networkRxBytes` / `networkTxBytes` are summed across all network interfaces.
+
 ## Safety and Permissions
 
-- `readOnly: true` allows only `ps`, `logs`, `inspect`, and `compose_ps`
+- `readOnly: true` allows only `ps`, `logs`, `inspect`, `stats`, and `compose_ps`
 - `allowedOperations` limits which tools can be executed
 - Compose operations are limited to projects in `composeProjects`
 - Commands use timeout protection via `timeoutMs`

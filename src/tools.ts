@@ -19,6 +19,7 @@ interface ToolMap {
     followDurationMs?: number;
   }) => Promise<unknown>;
   docker_inspect: (input: { containerId: string }) => Promise<unknown>;
+  docker_stats: (input: { containerId: string }) => Promise<unknown>;
   docker_start: (input: { containerId: string }) => Promise<unknown>;
   docker_stop: (input: { containerId: string; timeout?: number }) => Promise<unknown>;
   docker_restart: (input: { containerId: string; timeout?: number }) => Promise<unknown>;
@@ -146,6 +147,71 @@ export function createTools({ docker, config, composeRunner = runComposeCommand 
         return await container.inspect();
       } catch (error) {
         throw new Error(`Failed to inspect '${containerId}': ${(error as Error).message}`);
+      }
+    },
+
+    async docker_stats(input) {
+      guard("stats", config);
+      const containerId = requiredContainer(input);
+
+      try {
+        const container = docker.getContainer(containerId);
+        // one-shot stats (stream: false)
+        const raw = await container.stats({ stream: false }) as Record<string, unknown>;
+
+        // CPU %
+        const cpuDelta =
+          (raw.cpu_stats as Record<string, unknown>) &&
+          (raw.precpu_stats as Record<string, unknown>)
+            ? ((raw.cpu_stats as { cpu_usage: { total_usage: number } }).cpu_usage.total_usage -
+                (raw.precpu_stats as { cpu_usage: { total_usage: number } }).cpu_usage.total_usage)
+            : 0;
+        const systemDelta =
+          (raw.cpu_stats as { system_cpu_usage?: number }).system_cpu_usage != null &&
+          (raw.precpu_stats as { system_cpu_usage?: number }).system_cpu_usage != null
+            ? ((raw.cpu_stats as { system_cpu_usage: number }).system_cpu_usage -
+                (raw.precpu_stats as { system_cpu_usage: number }).system_cpu_usage)
+            : 0;
+        const numCpus: number =
+          ((raw.cpu_stats as { online_cpus?: number }).online_cpus) ??
+          (((raw.cpu_stats as { cpu_usage: { percpu_usage?: number[] } }).cpu_usage.percpu_usage) ?? []).length ??
+          1;
+        const cpuPercent =
+          systemDelta > 0 ? (cpuDelta / systemDelta) * numCpus * 100 : 0;
+
+        // Memory
+        const memStats = raw.memory_stats as {
+          usage?: number;
+          limit?: number;
+          stats?: { cache?: number };
+        };
+        const memUsage = memStats.usage ?? 0;
+        const memLimit = memStats.limit ?? 0;
+        // Subtract cache from usage (Docker Desktop style)
+        const cache = memStats.stats?.cache ?? 0;
+        const memUsageNet = memUsage - cache;
+
+        // Network rx/tx (sum across all interfaces)
+        const networks = raw.networks as Record<string, { rx_bytes: number; tx_bytes: number }> | undefined;
+        let networkRxBytes = 0;
+        let networkTxBytes = 0;
+        if (networks) {
+          for (const iface of Object.values(networks)) {
+            networkRxBytes += iface.rx_bytes ?? 0;
+            networkTxBytes += iface.tx_bytes ?? 0;
+          }
+        }
+
+        return {
+          containerId,
+          cpuPercent: parseFloat(cpuPercent.toFixed(2)),
+          memoryUsageBytes: memUsageNet,
+          memoryLimitBytes: memLimit,
+          networkRxBytes,
+          networkTxBytes
+        };
+      } catch (error) {
+        throw new Error(`Failed to get stats for '${containerId}': ${(error as Error).message}`);
       }
     },
 

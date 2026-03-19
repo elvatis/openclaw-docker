@@ -53,6 +53,7 @@
             "ps",
             "logs",
             "inspect",
+            "stats",
             "start",
             "stop",
             "restart",

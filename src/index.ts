@@ -28,6 +28,9 @@ export default function init(api: OpenClawApi): void {
   register("docker_inspect", async (input) =>
     tools.docker_inspect(input as { containerId: string })
   );
+  register("docker_stats", async (input) =>
+    tools.docker_stats(input as { containerId: string })
+  );
   register("docker_start", async (input) => tools.docker_start(input as { containerId: string }));
   register("docker_stop", async (input) =>
     tools.docker_stop(input as { containerId: string; timeout?: number })

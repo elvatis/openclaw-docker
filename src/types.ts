@@ -2,6 +2,7 @@ export type DockerOperation =
   | "ps"
   | "logs"
   | "inspect"
+  | "stats"
   | "start"
   | "stop"
   | "restart"
